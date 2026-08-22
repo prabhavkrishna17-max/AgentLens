@@ -15,7 +15,8 @@ class RunContext:
         agent_name: str,
         task: str, 
         environment: str = "development",
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
+        run_id: Optional[str] = None
     ):
         self.transport = transport
         self.agent_name = agent_name
@@ -23,21 +24,22 @@ class RunContext:
         self.environment = environment
         self.metadata = metadata or {}
         
-        self.id: Optional[str] = None
+        self.id: Optional[str] = run_id
         self.started_at: Optional[datetime.datetime] = None
         self._token: Optional[Any] = None
 
     def __enter__(self):
         self.started_at = datetime.datetime.now(datetime.timezone.utc)
-        payload = {
-            "agent_name": self.agent_name,
-            "task": self.task,
-            "environment": self.environment,
-            "metadata": self.metadata
-        }
-        resp = self.transport.post("/api/v1/ingest/runs", payload)
-        if resp and "id" in resp:
-            self.id = resp["id"]
+        if not self.id:
+            payload = {
+                "agent_name": self.agent_name,
+                "task": self.task,
+                "environment": self.environment,
+                "metadata": self.metadata
+            }
+            resp = self.transport.post("/api/v1/ingest/runs", payload)
+            if resp and "id" in resp:
+                self.id = resp["id"]
         
         self._token = current_run_var.set(self)
         return self

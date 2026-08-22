@@ -9,6 +9,7 @@ import './index.css'
 
 import AppLayout from './components/AppLayout'
 import HistoryPage from './features/history/HistoryPage'
+import AgentWorkspace from './features/agent/AgentWorkspace'
 
 import SettingsPage from './features/settings/SettingsPage'
 import ProjectsPage from './features/projects/ProjectsPage'
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
     path: '/app',
     element: <AppLayout />,
     children: [
+      {
+        path: 'agent',
+        element: <AgentWorkspace />,
+      },
       {
         path: '',
         element: <Dashboard />,

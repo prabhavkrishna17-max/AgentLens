@@ -1,14 +1,22 @@
 .container {
   min-height: 100vh;
-  height: 100vh;
   background-color: #000000;
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   font-family: 'Inter', sans-serif;
+}
+
+.heroSection {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Navbar */
@@ -315,3 +323,146 @@
     font-size: clamp(2.5rem, 5.5vw, 4.5rem);
   }
 }
+
+/* Feature Walkthrough */
+.walkthroughSection {
+  position: relative;
+  z-index: 20;
+  background-color: #000000;
+  padding: 100px 24px 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 160px;
+}
+
+.walkthroughStep {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .walkthroughStep {
+    grid-template-columns: 1fr 1fr;
+  }
+  .walkthroughStep:nth-child(even) {
+    direction: rtl;
+  }
+  .walkthroughStep:nth-child(even) > * {
+    direction: ltr;
+  }
+}
+
+.stepText {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stepLabel {
+  font-family: monospace;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.stepTitle {
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  margin: 0;
+  line-height: 1.1;
+  color: #ffffff;
+}
+
+.stepDesc {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+.stepVisual {
+  background: rgba(15, 15, 15, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 32px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Mock Visuals inside cards */
+.visualGraph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.graphNode {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+.graphLine {
+  width: 2px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.graphNodeFailed {
+  border-color: rgba(255, 100, 100, 0.5);
+  color: #ff8888;
+}
+
+.visualCode {
+  width: 100%;
+  font-family: monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 16px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.visualSplit {
+  display: flex;
+  width: 100%;
+  gap: 16px;
+  height: 100%;
+}
+.splitPane {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 16px;
+  font-family: monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.splitPaneTitle {
+  color: #fff;
+  font-size: 12px;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+

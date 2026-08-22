@@ -56,11 +56,11 @@ class AgentLens:
         global _global_lens_instance
         _global_lens_instance = self
 
-    def run(self, agent_name: str, task: str, environment: str = "development", metadata: Optional[Dict[str, Any]] = None) -> RunContext:
+    def run(self, agent_name: str, task: str, environment: str = "development", metadata: Optional[Dict[str, Any]] = None, run_id: Optional[str] = None) -> RunContext:
         """
         Context manager to track an entire agent execution run.
         """
-        return RunContext(transport=self.transport, agent_name=agent_name, task=task, environment=environment, metadata=metadata)
+        return RunContext(transport=self.transport, agent_name=agent_name, task=task, environment=environment, metadata=metadata, run_id=run_id)
 
     def tool(self, name: Optional[str] = None):
         """

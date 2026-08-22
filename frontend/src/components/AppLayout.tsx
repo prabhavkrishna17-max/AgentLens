@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import CommandPalette from './CommandPalette';
@@ -8,8 +8,31 @@ import CardNav from './CardNav';
 import LightTunnel from './LightTunnel';
 import { apiFetch } from '@/lib/api';
 
+const navItems = [
+  {
+    label: "AGENT WORKSPACE",
+    bgColor: "rgba(20, 20, 20, 0.6)",
+    textColor: "#fff",
+    links: [{ label: "Run Agent", href: "/app/agent" }]
+  },
+  {
+    label: "ADVANCED",
+    bgColor: "rgba(30, 30, 30, 0.6)",
+    textColor: "#fff",
+    links: [
+      { label: "Dashboard", href: "/app" },
+      { label: "Traces", href: "/app/traces" },
+      { label: "Prompt Lab", href: "/app/prompt-lab" },
+      { label: "Compare", href: "/app/compare" },
+      { label: "Connect your own agent", href: "/app/integrate" },
+      { label: "Settings", href: "/app/settings" }
+    ]
+  }
+];
+
 export default function AppLayout() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { data: projects, isLoading, isError } = useQuery({
     queryKey: ['projects'],
@@ -24,53 +47,15 @@ export default function AppLayout() {
 
   useEffect(() => {
     if (!isLoading && !isError && projects && projects.length === 0) {
-      window.location.href = '/app/onboarding';
+      navigate('/app/onboarding');
     }
-  }, [projects, isLoading, isError]);
+  }, [projects, isLoading, isError, navigate]);
 
-  if (isLoading || (!hasProjects && !isError)) {
+  if (isLoading || (!isLoading && !isError && !hasProjects)) {
     return <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
     </div>;
   }
-
-  const navItems = [
-    {
-      label: "OBSERVE",
-      bgColor: "rgba(30, 30, 30, 0.6)",
-      textColor: "#fff",
-      links: [
-        { label: "Overview", href: "/app" },
-        { label: "Execution History", href: "/app/traces" }
-      ]
-    },
-    {
-      label: "ANALYZE", 
-      bgColor: "rgba(40, 40, 40, 0.6)",
-      textColor: "#fff",
-      links: [
-        { label: "Prompt Lab", href: "/app/prompt-lab" },
-        { label: "Compare Runs", href: "/app/compare" }
-      ]
-    },
-    {
-      label: "CONNECT",
-      bgColor: "rgba(50, 50, 50, 0.6)", 
-      textColor: "#fff",
-      links: [
-        { label: "Integrations", href: "/app/integrate" }
-      ]
-    },
-    {
-      label: "PROJECT",
-      bgColor: "rgba(60, 60, 60, 0.6)", 
-      textColor: "#fff",
-      links: [
-        { label: "Settings", href: "/app/settings" },
-        { label: "Projects", href: "/app/projects" }
-      ]
-    }
-  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col relative overflow-hidden">
@@ -78,7 +63,7 @@ export default function AppLayout() {
       <CommandPalette />
       
       {/* Global Navigation */}
-      <div className="relative z-20">
+      <div className="relative z-50">
         <CardNav 
           items={navItems}
           baseColor="rgba(20, 20, 20, 0.5)"

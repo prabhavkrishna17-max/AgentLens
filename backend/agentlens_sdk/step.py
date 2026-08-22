@@ -70,7 +70,7 @@ class StepContext:
                 error_msg = error_msg[:10000] + "... [TRUNCATED - EXCEEDED 10000 CHARS]"
             payload["error"] = {"message": error_msg, "type": exc_type.__name__}
         else:
-            payload["status"] = "success"
+            payload["status"] = "completed"
             
         self.transport.patch(f"/api/v1/ingest/steps/{self.id}", payload)
         

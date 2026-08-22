@@ -32,6 +32,7 @@ interface CardNavProps {
   menuColor?: string;
   buttonBgColor?: string;
   buttonTextColor?: string;
+  renderTopBar?: (toggleMenu: () => void, isExpanded: boolean, closeMenu: () => void) => React.ReactNode;
 }
 
 const CardNav = ({
@@ -41,7 +42,8 @@ const CardNav = ({
   baseColor = 'rgba(255, 255, 255, 0.8)',
   menuColor,
   buttonBgColor = '#111',
-  buttonTextColor = '#fff'
+  buttonTextColor = '#fff',
+  renderTopBar
 }: CardNavProps) => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -95,7 +97,7 @@ const CardNav = ({
     const tl = gsap.timeline({ paused: true });
 
     tl.to(navEl, {
-      height: calculateHeight,
+      height: calculateHeight(),
       duration: 0.4,
       ease
     });
@@ -169,43 +171,47 @@ const CardNav = ({
   return (
     <div className={`card-nav-container ${className}`}>
       <nav ref={navRef} className={`card-nav ${isExpanded ? 'open' : ''}`} style={{ backgroundColor: baseColor }}>
-        <div className="card-nav-top">
-          <div
-            className={`hamburger-menu ${isHamburgerOpen ? 'open' : ''}`}
-            onClick={toggleMenu}
-            onKeyDown={e => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleMenu();
-              }
-            }}
-            role="button"
-            aria-label={isExpanded ? 'Close menu' : 'Open menu'}
-            aria-expanded={isExpanded}
-            tabIndex={0}
-            style={{ color: menuColor || '#000' }}
-          >
-            <div className="hamburger-line" />
-            <div className="hamburger-line" />
+        {renderTopBar ? (
+          renderTopBar(toggleMenu, isExpanded, closeMenu)
+        ) : (
+          <div className="card-nav-top">
+            <div
+              className={`hamburger-menu ${isHamburgerOpen ? 'open' : ''}`}
+              onClick={toggleMenu}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  toggleMenu();
+                }
+              }}
+              role="button"
+              aria-label={isExpanded ? 'Close menu' : 'Open menu'}
+              aria-expanded={isExpanded}
+              tabIndex={0}
+              style={{ color: menuColor || '#000' }}
+            >
+              <div className="hamburger-line" />
+              <div className="hamburger-line" />
+            </div>
+
+            <Link to="/" className="logo-container text-foreground no-underline" onClick={closeMenu}>
+              <LogoIcon />
+              <span>AgentLens</span>
+            </Link>
+
+            <button
+              type="button"
+              className="card-nav-cta-button"
+              onClick={() => {
+                 navigate('/app/integrate');
+                 closeMenu();
+              }}
+              style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+            >
+              Connect Agent
+            </button>
           </div>
-
-          <Link to="/" className="logo-container text-foreground no-underline" onClick={closeMenu}>
-            <LogoIcon />
-            <span>AgentLens</span>
-          </Link>
-
-          <button
-            type="button"
-            className="card-nav-cta-button"
-            onClick={() => {
-               navigate('/app/integrate');
-               closeMenu();
-            }}
-            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
-          >
-            Connect Agent
-          </button>
-        </div>
+        )}
 
         <div className="card-nav-content" aria-hidden={!isExpanded}>
           {items.map((item, idx) => (

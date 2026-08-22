@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-from .api import runs, steps, diagnosis, projects, ingest, analytics, search, prompt
+from .api import runs, steps, diagnosis, projects, ingest, analytics, search, prompt, agent
 
 app = FastAPI(
     title="AgentLens API",
@@ -31,6 +31,7 @@ app.include_router(diagnosis.router, tags=["Diagnosis"])
 app.include_router(prompt.router, prefix="/api", tags=["Prompts"])
 app.include_router(analytics.router, prefix="/api", tags=["Analytics"])
 app.include_router(search.router, prefix="/api/search", tags=["Search"])
+app.include_router(agent.router, tags=["Agent"])
 
 @app.get("/api/health")
 def health_check():

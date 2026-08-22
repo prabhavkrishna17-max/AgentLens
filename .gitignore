@@ -39,3 +39,5 @@ backend/test.db
 *.db
 backend/alembic/versions/*_*.py
 !backend/alembic/versions/__init__.py
+*.exe
+*.bak
