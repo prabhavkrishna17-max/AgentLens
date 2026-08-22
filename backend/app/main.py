@@ -6,6 +6,11 @@ load_dotenv()
 
 from .api import runs, steps, diagnosis, projects, ingest, analytics, search, prompt, agent
 
+# Automatically create tables on startup (useful for deployments without Alembic migrations setup)
+from .models.base import Base
+from .core.db import engine
+Base.metadata.create_all(bind=engine)
+
 app = FastAPI(
     title="AgentLens API",
     description="Backend API for the AgentLens Observability Platform",
