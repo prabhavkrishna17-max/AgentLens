@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import CommandPalette from './CommandPalette';
@@ -45,13 +46,7 @@ export default function AppLayout() {
   
   const hasProjects = projects && projects.length > 0;
 
-  useEffect(() => {
-    if (!isLoading && !isError && projects && projects.length === 0) {
-      navigate('/app/onboarding');
-    }
-  }, [projects, isLoading, isError, navigate]);
-
-  if (isLoading || (!isLoading && !isError && !hasProjects)) {
+  if (isLoading) {
     return <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
     </div>;
@@ -110,6 +105,16 @@ export default function AppLayout() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col h-screen overflow-hidden pt-24 relative z-10">
         <div className="flex-1 overflow-y-auto relative px-4 md:px-8 pb-8">
+          {location.pathname !== '/app' && !location.pathname.startsWith('/app/trace/') && (
+            <div className="mb-6 flex max-w-7xl mx-auto w-full">
+              <Link 
+                to="/app" 
+                className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary border border-primary/30 rounded-full hover:bg-primary/20 hover:shadow-[0_0_20px_hsl(var(--primary)/0.4)] transition-all font-mono text-sm shadow-[0_0_10px_hsl(var(--primary)/0.2)]"
+              >
+                <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+              </Link>
+            </div>
+          )}
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}

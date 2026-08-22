@@ -47,7 +47,9 @@ export default function Dashboard() {
 
   if (loadingProjects || (hasProjects && isLoading)) return <div className="p-8 text-primary font-mono animate-pulse flex h-screen items-center justify-center">Loading dashboard...</div>;
 
-  if (!hasProjects && !loadingProjects) {
+  const skippedOnboarding = localStorage.getItem('agentlens_skip_onboarding') === 'true';
+
+  if (!hasProjects && !loadingProjects && !skippedOnboarding) {
     return <Onboarding />;
   }
   

@@ -27,7 +27,10 @@ export default function TracePage() {
     <div className="flex flex-col h-screen overflow-hidden bg-background">
       <header className="h-16 border-b border-border flex items-center px-6 shrink-0 justify-between">
         <div className="flex items-center gap-4">
-          <Link to="/app" className="p-2 hover:bg-accent rounded-md transition-colors text-muted-foreground hover:text-foreground">
+          <Link 
+            to="/app" 
+            className="flex items-center gap-2 px-3 py-2 bg-primary/10 text-primary border border-primary/30 rounded-full hover:bg-primary/20 hover:shadow-[0_0_20px_hsl(var(--primary)/0.4)] transition-all shadow-[0_0_10px_hsl(var(--primary)/0.2)]"
+          >
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div className="flex flex-col">

@@ -107,8 +107,21 @@ export default function Onboarding() {
       </div>
 
       <div className="max-w-2xl w-full relative z-10 bg-background/80 backdrop-blur-md border border-border/50 p-10 rounded-3xl shadow-2xl">
-        <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome to AgentLens</h1>
-        <p className="text-muted-foreground font-mono text-sm mb-12">Let's connect your first AI agent.</p>
+        <div className="flex justify-between items-start mb-12">
+          <div>
+            <h1 className="text-4xl font-bold tracking-tight mb-2">Welcome to AgentLens</h1>
+            <p className="text-muted-foreground font-mono text-sm">Let's connect your first AI agent.</p>
+          </div>
+          <button 
+            onClick={() => {
+              localStorage.setItem('agentlens_skip_onboarding', 'true');
+              window.location.reload();
+            }}
+            className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
+          >
+            Skip for now
+          </button>
+        </div>
 
         <div className="space-y-8 relative border-l border-border pl-8 ml-4">
           
