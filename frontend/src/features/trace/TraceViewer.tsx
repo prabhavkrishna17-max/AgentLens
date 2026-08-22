@@ -188,7 +188,7 @@ export default function TraceViewer({ runId, runStatus }: { runId: string, runSt
   if (isLoading) return <div className="flex h-full items-center justify-center p-12"><div className="text-primary animate-pulse font-mono">Loading trace...</div></div>;
 
   return (
-    <div className="w-full h-full bg-background relative border border-border rounded-lg overflow-hidden flex">
+    <div className="w-full h-[calc(100vh-100px)] md:h-full bg-background relative border border-border rounded-lg overflow-hidden flex flex-col md:flex-row">
       <div className="flex-1 relative h-full">
         <ReactFlow
           nodes={nodes}

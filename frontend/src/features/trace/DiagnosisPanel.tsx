@@ -123,7 +123,7 @@ export default function DiagnosisPanel({ runId, projectId, isOpen, onClose }: { 
                 {/* Header */}
                 <div className="flex items-start justify-between border-b border-border pb-6">
                   <div>
-                    <div className="flex items-center gap-3 mb-2">
+                    <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-2">
                       <span className="bg-destructive/10 text-destructive border border-destructive/20 px-3 py-1 rounded-full text-xs font-mono font-semibold uppercase">
                         {diagnosis.failure_category}
                       </span>
@@ -141,15 +141,15 @@ export default function DiagnosisPanel({ runId, projectId, isOpen, onClose }: { 
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
                   {/* Left Column: Explanation & Fixes */}
-                  <div className="col-span-2 space-y-8">
+                  <div className="lg:col-span-2 space-y-8">
                     <div>
                       <h4 className="text-sm uppercase font-mono text-muted-foreground mb-3 font-semibold tracking-wider">Analysis</h4>
                       <p className="text-base leading-relaxed text-foreground/90">{diagnosis.explanation}</p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <h4 className="text-sm uppercase font-mono text-muted-foreground mb-3 font-semibold tracking-wider">Suggested Fixes</h4>
                         <ul className="space-y-3">

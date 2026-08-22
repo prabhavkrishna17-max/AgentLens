@@ -226,6 +226,7 @@
   align-items: center;
   gap: 12px;
   margin-top: 8px;
+  flex-wrap: wrap;
 }
 
 .specularOverride {
@@ -329,10 +330,17 @@
   position: relative;
   z-index: 20;
   background-color: #000000;
-  padding: 100px 24px 160px;
+  padding: 60px 16px 80px;
   display: flex;
   flex-direction: column;
-  gap: 160px;
+  gap: 80px;
+}
+
+@media (min-width: 768px) {
+  .walkthroughSection {
+    padding: 100px 24px 160px;
+    gap: 160px;
+  }
 }
 
 .walkthroughStep {
@@ -340,7 +348,7 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px;
+  gap: 32px;
   align-items: center;
 }
 
@@ -445,6 +453,13 @@
   width: 100%;
   gap: 16px;
   height: 100%;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .visualSplit {
+    flex-direction: row;
+  }
 }
 .splitPane {
   flex: 1;

@@ -39,8 +39,8 @@ export default function AnalyticsPage() {
   const hasData = analytics && analytics.total_runs > 0;
 
   return (
-    <div className="p-8 max-w-6xl mx-auto w-full">
-      <div className="mb-8">
+    <div className="p-4 md:p-8 max-w-6xl mx-auto w-full">
+      <div className="mb-6 md:mb-8">
         <h2 className="text-3xl font-bold mb-2">Analytics</h2>
         <p className="text-muted-foreground font-mono text-sm">Execution trends and failure distributions.</p>
       </div>
@@ -61,40 +61,40 @@ export default function AnalyticsPage() {
       ) : (
         <div className="space-y-8">
           {/* Top Line Metrics */}
-          <div className="grid grid-cols-4 gap-4">
-            <div className="p-6 border border-border bg-accent/20 rounded-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 md:p-6 border border-border bg-accent/20 rounded-xl">
               <div className="flex items-center gap-2 text-muted-foreground mb-4">
                 <Activity className="w-4 h-4" />
                 <span className="text-xs uppercase font-mono font-semibold">Execution Volume</span>
               </div>
-              <div className="text-4xl font-bold tracking-tight">{analytics?.total_runs || 0}</div>
+              <div className="text-3xl md:text-4xl font-bold tracking-tight">{analytics?.total_runs || 0}</div>
             </div>
-            <div className="p-6 border border-border bg-accent/20 rounded-xl">
+            <div className="p-4 md:p-6 border border-border bg-accent/20 rounded-xl">
               <div className="flex items-center gap-2 text-muted-foreground mb-4">
                 <CheckCircle2 className="w-4 h-4 text-green-500" />
                 <span className="text-xs uppercase font-mono font-semibold">Success Rate</span>
               </div>
-              <div className="text-4xl font-bold tracking-tight text-green-500">{analytics?.success_rate || 0}%</div>
+              <div className="text-3xl md:text-4xl font-bold tracking-tight text-green-500">{analytics?.success_rate || 0}%</div>
             </div>
-            <div className="p-6 border border-border bg-accent/20 rounded-xl">
+            <div className="p-4 md:p-6 border border-border bg-accent/20 rounded-xl">
               <div className="flex items-center gap-2 text-muted-foreground mb-4">
                 <AlertCircle className="w-4 h-4 text-destructive" />
                 <span className="text-xs uppercase font-mono font-semibold">Failure Rate</span>
               </div>
-              <div className="text-4xl font-bold tracking-tight text-destructive">{analytics?.failure_rate || 0}%</div>
+              <div className="text-3xl md:text-4xl font-bold tracking-tight text-destructive">{analytics?.failure_rate || 0}%</div>
             </div>
-            <div className="p-6 border border-border bg-accent/20 rounded-xl">
+            <div className="p-4 md:p-6 border border-border bg-accent/20 rounded-xl">
               <div className="flex items-center gap-2 text-muted-foreground mb-4">
                 <Clock className="w-4 h-4" />
                 <span className="text-xs uppercase font-mono font-semibold">Avg Latency</span>
               </div>
-              <div className="text-4xl font-bold tracking-tight">{analytics?.avg_duration_seconds || 0}s</div>
+              <div className="text-3xl md:text-4xl font-bold tracking-tight">{analytics?.avg_duration_seconds || 0}s</div>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {/* Failure Categories */}
-            <div className="p-6 border border-border bg-accent/10 rounded-xl">
+            <div className="p-4 md:p-6 border border-border bg-accent/10 rounded-xl">
               <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
                 <AlertCircle className="w-5 h-5 text-destructive" /> Failure Distribution
               </h3>
@@ -121,7 +121,7 @@ export default function AnalyticsPage() {
             </div>
 
             {/* Most Active Agents */}
-            <div className="p-6 border border-border bg-accent/10 rounded-xl">
+            <div className="p-4 md:p-6 border border-border bg-accent/10 rounded-xl">
               <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
                 <BarChart className="w-5 h-5" /> Agent Volume
               </h3>

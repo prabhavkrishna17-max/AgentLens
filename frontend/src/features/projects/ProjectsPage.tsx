@@ -58,8 +58,8 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="p-8 max-w-6xl mx-auto w-full flex flex-col h-full overflow-hidden">
-      <div className="mb-8 flex items-end justify-between shrink-0">
+    <div className="p-4 md:p-8 max-w-6xl mx-auto w-full flex flex-col h-full overflow-hidden">
+      <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-end justify-between shrink-0 gap-4">
         <div>
           <h2 className="text-3xl font-bold mb-2">Projects</h2>
           <p className="text-muted-foreground font-mono text-sm">Manage your agent observability projects.</p>
@@ -75,9 +75,9 @@ export default function ProjectsPage() {
 
       <div className="flex-1 overflow-y-auto pr-4">
         {isCreating && (
-          <div className="mb-6 p-6 border border-border bg-accent/20 rounded-xl">
+          <div className="mb-6 p-4 md:p-6 border border-border bg-accent/20 rounded-xl">
             <h3 className="text-lg font-semibold mb-4">Create New Project</h3>
-            <div className="flex gap-4 items-end">
+            <div className="flex flex-col sm:flex-row gap-4 sm:items-end">
               <div className="flex-1">
                 <label className="block text-xs font-mono uppercase text-muted-foreground mb-1">Project Name</label>
                 <input 
@@ -87,7 +87,7 @@ export default function ProjectsPage() {
                   className="w-full bg-accent/30 border border-border rounded-md px-4 py-2 outline-none focus:border-primary transition-colors"
                 />
               </div>
-              <div className="w-48">
+              <div className="w-full sm:w-48">
                 <label className="block text-xs font-mono uppercase text-muted-foreground mb-1">Environment</label>
                 <select 
                   value={newProjectEnv}
@@ -129,8 +129,8 @@ export default function ProjectsPage() {
         ) : (
           <div className="grid gap-6">
             {projects?.map((project: any) => (
-              <div key={project.id} className="p-6 border border-border bg-accent/10 rounded-xl">
-                <div className="flex justify-between items-start mb-6">
+              <div key={project.id} className="p-4 md:p-6 border border-border bg-accent/10 rounded-xl">
+                <div className="flex flex-col sm:flex-row justify-between sm:items-start mb-6 gap-4">
                   <div>
                     <h3 className="text-xl font-bold">{project.name}</h3>
                     <div className="text-sm text-muted-foreground mt-1 font-mono flex items-center gap-2">
@@ -164,7 +164,7 @@ export default function ProjectsPage() {
                       </button>
                     </div>
                     
-                    <div className="mt-6 bg-black text-white p-6 rounded-lg font-mono text-sm shadow-xl">
+                    <div className="mt-6 bg-black text-white p-4 sm:p-6 rounded-lg font-mono text-xs sm:text-sm shadow-xl overflow-x-auto whitespace-pre">
                       <div className="text-gray-400 mb-2"># Install SDK</div>
                       <div className="text-green-400 mb-6">pip install agentlens</div>
                       <div className="text-gray-400 mb-2"># Initialize in your agent code</div>

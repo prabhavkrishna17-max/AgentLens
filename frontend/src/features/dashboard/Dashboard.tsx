@@ -54,10 +54,10 @@ export default function Dashboard() {
   const maxRuns = analytics?.runs_over_time?.length > 0 ? Math.max(...analytics.runs_over_time.map((r: any) => r.count)) : 0;
 
   return (
-    <div className="p-8 max-w-6xl mx-auto w-full flex flex-col gap-8 mb-20">
+    <div className="p-4 md:p-8 max-w-6xl mx-auto w-full flex flex-col gap-6 md:gap-8 mb-20">
       
       {/* Header */}
-      <div className="flex items-end justify-between">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <h2 className="text-3xl font-bold mb-2">Overview</h2>
           <p className="text-muted-foreground font-mono text-sm">Real-time observability overview</p>
@@ -93,39 +93,39 @@ export default function Dashboard() {
       ) : (
         <>
           {/* Analytics Grid */}
-          <div className="grid grid-cols-4 gap-4 mb-4">
-            <div className="p-6 border border-border bg-accent/20 rounded-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+            <div className="p-4 md:p-6 border border-border bg-accent/20 rounded-xl">
               <div className="flex items-center gap-2 text-muted-foreground mb-4">
                 <Activity className="w-4 h-4" />
                 <span className="text-xs uppercase font-mono font-semibold">Total Executions</span>
               </div>
-              <div className="text-4xl font-bold tracking-tight">{analytics.total_runs}</div>
+              <div className="text-3xl md:text-4xl font-bold tracking-tight">{analytics.total_runs}</div>
             </div>
-            <div className="p-6 border border-border bg-accent/20 rounded-xl">
+            <div className="p-4 md:p-6 border border-border bg-accent/20 rounded-xl">
               <div className="flex items-center gap-2 text-muted-foreground mb-4">
                 <CheckCircle2 className="w-4 h-4 text-green-500" />
                 <span className="text-xs uppercase font-mono font-semibold">Success Rate</span>
               </div>
-              <div className="text-4xl font-bold tracking-tight text-green-500">{analytics.success_rate}%</div>
+              <div className="text-3xl md:text-4xl font-bold tracking-tight text-green-500">{analytics.success_rate}%</div>
             </div>
-            <div className="p-6 border border-border bg-accent/20 rounded-xl">
+            <div className="p-4 md:p-6 border border-border bg-accent/20 rounded-xl">
               <div className="flex items-center gap-2 text-muted-foreground mb-4">
                 <AlertCircle className="w-4 h-4 text-destructive" />
                 <span className="text-xs uppercase font-mono font-semibold">Failure Rate</span>
               </div>
-              <div className="text-4xl font-bold tracking-tight text-destructive">{analytics.failure_rate}%</div>
+              <div className="text-3xl md:text-4xl font-bold tracking-tight text-destructive">{analytics.failure_rate}%</div>
             </div>
-            <div className="p-6 border border-border bg-accent/20 rounded-xl">
+            <div className="p-4 md:p-6 border border-border bg-accent/20 rounded-xl">
               <div className="flex items-center gap-2 text-muted-foreground mb-4">
                 <Clock className="w-4 h-4" />
                 <span className="text-xs uppercase font-mono font-semibold">Avg Duration</span>
               </div>
-              <div className="text-4xl font-bold tracking-tight">{analytics.avg_duration_seconds}s</div>
+              <div className="text-3xl md:text-4xl font-bold tracking-tight">{analytics.avg_duration_seconds}s</div>
             </div>
           </div>
           
-          <div className="grid grid-cols-3 gap-6">
-            <div className="col-span-2 p-6 border border-border bg-accent/10 rounded-xl flex flex-col">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="col-span-1 lg:col-span-2 p-4 md:p-6 border border-border bg-accent/10 rounded-xl flex flex-col">
                <h3 className="text-sm font-mono uppercase tracking-widest text-muted-foreground mb-6">Runs Over Time</h3>
                
                {analytics.runs_over_time?.length > 0 ? (
@@ -153,7 +153,7 @@ export default function Dashboard() {
                )}
             </div>
             
-            <div className="p-6 border border-border bg-accent/10 rounded-xl">
+            <div className="p-4 md:p-6 border border-border bg-accent/10 rounded-xl">
                <h3 className="text-sm font-mono uppercase tracking-widest text-muted-foreground mb-6">Failure Analytics</h3>
                {analytics.failure_categories?.length > 0 ? (
                  <div className="flex flex-col gap-4">
@@ -194,15 +194,15 @@ export default function Dashboard() {
             <div className="grid gap-3">
             {runs?.map((run: any) => (
               <Link to={`/app/trace/${run.id}`} key={run.id} className="block group">
-                <div className="p-6 border border-border bg-accent/30 rounded-lg hover:border-primary transition-colors flex items-center justify-between shadow-sm">
+                <div className="p-4 md:p-6 border border-border bg-accent/30 rounded-lg hover:border-primary transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
                   <div>
-                    <div className="font-semibold text-lg group-hover:text-primary transition-colors">{run.task}</div>
-                    <div className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
-                      <span className="px-2 py-0.5 bg-secondary/50 rounded-md font-mono text-xs">{run.agent_name}</span>
+                    <div className="font-semibold text-base md:text-lg group-hover:text-primary transition-colors truncate">{run.task}</div>
+                    <div className="text-xs md:text-sm text-muted-foreground mt-1 flex items-center gap-2">
+                      <span className="px-2 py-0.5 bg-secondary/50 rounded-md font-mono text-[10px] md:text-xs truncate">{run.agent_name}</span>
                     </div>
-                    <div className="text-xs font-mono text-muted-foreground mt-2">{run.id}</div>
+                    <div className="text-[10px] md:text-xs font-mono text-muted-foreground mt-2 truncate">{run.id}</div>
                   </div>
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-2">
                     <span className={`px-3 py-1 rounded-full text-xs font-mono border ${
                       run.status === 'success' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 
                       run.status === 'failed' ? 'bg-destructive/10 text-destructive border-destructive/20' : 
