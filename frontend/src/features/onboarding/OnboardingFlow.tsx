@@ -101,8 +101,17 @@ export default function OnboardingFlow() {
         </div>
 
         {step === 1 && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-accent/10 border border-border p-8 rounded-xl shadow-2xl">
-            <h2 className="text-xl font-semibold mb-6">Create your first project</h2>
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-accent/10 border border-border p-8 rounded-xl shadow-2xl relative">
+            <button 
+              onClick={() => {
+                localStorage.setItem('agentlens_skip_onboarding', 'true');
+                window.location.href = '/app';
+              }}
+              className="absolute top-8 right-8 text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
+            >
+              Skip for now
+            </button>
+            <h2 className="text-xl font-semibold mb-6 pr-24">Create your first project</h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-mono text-muted-foreground mb-2">Project Name</label>
