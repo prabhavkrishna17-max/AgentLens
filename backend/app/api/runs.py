@@ -7,7 +7,7 @@ from ..models import AgentRun, ExecutionStep, Diagnosis
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("")
 def list_runs(
     skip: int = 0, 
     limit: int = 100, 

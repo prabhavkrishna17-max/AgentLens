@@ -8,7 +8,7 @@ from ..models import AgentRun, Project
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("")
 def global_search(q: str, db: Session = Depends(get_db)):
     if not q or len(q) < 2:
         return {"projects": [], "runs": []}

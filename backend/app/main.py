@@ -13,11 +13,18 @@ app = FastAPI(
 )
 
 # Allow frontend requests
-frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
+frontend_origin = os.getenv("FRONTEND_ORIGIN")
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://agentlensapp.pages.dev",
+]
+if frontend_origin:
+    origins.extend([o.strip() for o in frontend_origin.split(",") if o.strip()])
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[frontend_origin],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

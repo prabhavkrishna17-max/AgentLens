@@ -8,7 +8,7 @@ from app.api.auth import generate_api_key
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("")
 def get_projects(db: Session = Depends(get_db)):
     """Returns all projects. In a real app, this would be filtered by the logged-in user's workspace."""
     # Since we are local/prototype, just return all projects or create a default workspace if none exist.
@@ -28,7 +28,7 @@ def get_projects(db: Session = Depends(get_db)):
         "created_at": p.created_at
     } for p in projects]
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("", status_code=status.HTTP_201_CREATED)
 def create_project(project_data: Dict[str, Any], db: Session = Depends(get_db)):
     """Creates a new project and returns it."""
     # Ensure a default workspace exists

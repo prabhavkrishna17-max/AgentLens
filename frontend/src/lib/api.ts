@@ -8,7 +8,7 @@
  * In production (e.g. Cloudflare Pages), VITE_API_BASE_URL should
  * point to the absolute URL of the deployed backend (e.g. `https://api.agentlens.io`).
  */
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 
 /**
  * Wrapper for standard fetch that automatically prefixes the API_BASE_URL.
