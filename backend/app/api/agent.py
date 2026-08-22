@@ -19,7 +19,7 @@ def run_demo_agent(prompt: str, api_key: str, run_id: str):
     import requests
     import re
     # Use the local backend ingest API
-    agentlens = AgentLens(api_key=api_key, base_url="http://localhost:8000")
+    agentlens = AgentLens(api_key=api_key, base_url=os.getenv("AGENTLENS_API_URL", "http://localhost:8000"))
     
     with agentlens.run(agent_name="Demo Agent", task=prompt, run_id=run_id) as run:
         try:
@@ -128,7 +128,7 @@ def run_gemini_agent(prompt: str, api_key: str, run_id: str):
     if not server_api_key:
         raise ValueError("GEMINI_API_KEY is not configured on the server.")
         
-    agentlens = AgentLens(api_key=api_key, base_url="http://localhost:8000")
+    agentlens = AgentLens(api_key=api_key, base_url=os.getenv("AGENTLENS_API_URL", "http://localhost:8000"))
     from agentlens_sdk.integrations.gemini import instrument_gemini
     from google import genai
     
