@@ -57,6 +57,7 @@ Use a service like Railway, Render, or Google Cloud Run.
 4. Add Environment Variable:
    - `VITE_API_BASE_URL`: The URL of your deployed backend from Step 3 (e.g., `https://agentlens-api.onrender.com`).
 5. Save and deploy.
+   > **Note:** Automatic production builds and deployments are triggered on every push to the `main` branch.
 
 ### 5. Configure SPA Routing (Cloudflare Pages fallback)
 If you experience 404s when refreshing subpaths (like `/app/trace`), Cloudflare Pages requires a routing fallback. Vite SPAs handle this gracefully if you ensure your deployment directs 404s to `index.html`. For Cloudflare, deploying to Pages typically handles this if you configure it as an SPA, or you can add a `_routes.json`.
