@@ -10,13 +10,17 @@ DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{db_path}")
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
-# Only use check_same_thread for SQLite
+# Only use check_same_thread for SQLite; use pool_pre_ping for PostgreSQL/external DBs
 connect_args = {}
+engine_kwargs = {}
 if DATABASE_URL.startswith("sqlite"):
     connect_args["check_same_thread"] = False
+else:
+    engine_kwargs["pool_pre_ping"] = True
+    engine_kwargs["pool_recycle"] = 300
 
 engine = create_engine(
-    DATABASE_URL, connect_args=connect_args
+    DATABASE_URL, connect_args=connect_args, **engine_kwargs
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

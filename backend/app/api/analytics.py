@@ -63,10 +63,16 @@ def get_project_analytics(
     
     failure_categories = [{"category": row[0], "count": row[1]} for row in diagnoses]
     
-    # Time-series data
-    # In SQLite, we can use strftime
+    # Time-series data (Dialect-agnostic: PostgreSQL uses to_char, SQLite uses strftime)
+    is_postgres = (getattr(db.bind.dialect, "name", "") == "postgresql") if db.bind else False
+    if is_postgres:
+        pg_format = "YYYY-MM-DD HH24:00:00" if timeframe == "24h" else "YYYY-MM-DD"
+        ts_expr = func.to_char(AgentRun.started_at, pg_format)
+    else:
+        ts_expr = func.strftime(group_by_format, AgentRun.started_at)
+
     time_series = db.query(
-        func.strftime(group_by_format, AgentRun.started_at).label('ts'),
+        ts_expr.label('ts'),
         func.count(AgentRun.id).label('count')
     ).filter(
         AgentRun.project_id == project_id,

@@ -43,8 +43,8 @@ Use a service like Railway, Render, or Google Cloud Run.
 3. The platform should automatically use the provided `Dockerfile`.
 4. Configure the following environment variables:
    - `FRONTEND_ORIGIN`: The eventual URL of your frontend (e.g., `https://agentlens.pages.dev`).
-   - `DATABASE_URL`: Your database connection string (or omit to use a local volume-mounted `sqlite:///agentlens.db`).
-5. Wait for the deployment to finish and note the backend URL.
+   - `DATABASE_URL`: Your persistent PostgreSQL connection string (e.g. from a free external PostgreSQL provider like Neon or Supabase: `postgresql://user:password@host/dbname?sslmode=require`). If omitted, falls back to local ephemeral SQLite.
+   - `AGENTLENS_API_URL`: Your backend URL (e.g., `https://agent-lens-o9gq.onrender.com`), ensuring internal SDK telemetry routes correctly.
 
 ### 4. Deploy Frontend (Cloudflare Pages)
 1. In the Cloudflare Dashboard, go to **Workers & Pages** -> **Create application** -> **Pages** -> **Connect to Git**.
