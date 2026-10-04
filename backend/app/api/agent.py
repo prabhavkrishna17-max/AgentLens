@@ -428,6 +428,28 @@ def execute_agent_task(prompt: str, provider: str, api_key: str, run_id: str, ke
         finally:
             db.close()
 
+@router.get("/api/v1/agent/config")
+def get_agent_config():
+    """Returns dynamic model configuration for agent providers."""
+    groq_model = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b")
+    gemini_model = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+    return {
+        "demo": {
+            "name": "Demo Agent",
+            "provider": "Groq",
+            "model": groq_model,
+            "label": "Groq LLM + Tools Engine",
+            "active_model_label": f"Groq ({groq_model})"
+        },
+        "gemini": {
+            "name": "Gemini Agent",
+            "provider": "Google",
+            "model": gemini_model,
+            "label": f"Google GenAI ({gemini_model})",
+            "active_model_label": f"Google ({gemini_model})"
+        }
+    }
+
 @router.post("/api/v1/projects/{project_id}/agent/run")
 def start_agent_run(
     project_id: str, 

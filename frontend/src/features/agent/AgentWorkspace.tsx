@@ -18,6 +18,7 @@ import {
   RotateCcw
 } from 'lucide-react';
 import { apiFetch } from '@/lib/api';
+import FormattedOutput from '@/components/FormattedOutput';
 
 export default function AgentWorkspace() {
   const [prompt, setPrompt] = useState('check weather in Tokyo');
@@ -38,6 +39,29 @@ export default function AgentWorkspace() {
   });
 
   const activeProjectId = projects?.[0]?.id;
+
+  // Dynamic agent model configuration from backend environment
+  const { data: agentConfig } = useQuery({
+    queryKey: ['agent-config'],
+    queryFn: async () => {
+      try {
+        const res = await apiFetch('/api/v1/agent/config');
+        if (res.ok) return await res.json();
+      } catch {
+        // fallback gracefully
+      }
+      return null;
+    },
+    staleTime: 60000,
+  });
+
+  const groqModel = agentConfig?.demo?.model || (import.meta as any).env.VITE_GROQ_MODEL || 'openai/gpt-oss-20b';
+  const geminiModel = agentConfig?.gemini?.model || (import.meta as any).env.VITE_GEMINI_MODEL || 'gemini-3.8-flash';
+  const geminiLabel = agentConfig?.gemini?.label || `Google GenAI (${geminiModel})`;
+  const demoLabel = agentConfig?.demo?.label || 'Groq LLM + Tools Engine';
+  const activeModelLabel = provider === 'demo'
+    ? (agentConfig?.demo?.active_model_label || `Groq (${groqModel})`)
+    : (agentConfig?.gemini?.active_model_label || `Google (${geminiModel})`);
 
   // Poll run status
   const { data: run } = useQuery({
@@ -253,7 +277,7 @@ export default function AgentWorkspace() {
                     {provider === 'demo' && <Check className="w-3.5 h-3.5 text-primary" />}
                   </div>
                   <div className="text-[10px] font-mono text-muted-foreground mt-1 truncate">
-                    Groq LLM + Tools Engine
+                    {demoLabel}
                   </div>
                 </button>
 
@@ -274,7 +298,7 @@ export default function AgentWorkspace() {
                     {provider === 'gemini' && <Check className="w-3.5 h-3.5 text-purple-400" />}
                   </div>
                   <div className="text-[10px] font-mono text-muted-foreground mt-1 truncate">
-                    Google GenAI (3.8 Flash)
+                    {geminiLabel}
                   </div>
                 </button>
               </div>
@@ -282,7 +306,7 @@ export default function AgentWorkspace() {
               <div className="text-[11px] font-mono text-muted-foreground flex items-center gap-1 px-1">
                 <span>Active Model:</span>
                 <span className="text-foreground/90 font-medium">
-                  {provider === 'demo' ? 'Groq (openai/gpt-oss-20b)' : 'Google (gemini-3.8-flash)'}
+                  {activeModelLabel}
                 </span>
               </div>
             </div>
@@ -500,16 +524,22 @@ export default function AgentWorkspace() {
                     <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground font-semibold">
                       Agent Response
                     </span>
-                    <div className="p-3.5 rounded-md bg-background/90 border border-border/80 font-mono text-xs md:text-sm text-foreground whitespace-pre-wrap leading-relaxed max-h-52 overflow-y-auto">
-                      {getResponseOutput()}
+                    <div className="p-3.5 rounded-md bg-background/90 border border-border/80 text-foreground leading-relaxed max-h-60 overflow-y-auto">
+                      <FormattedOutput content={getResponseOutput()} />
                     </div>
                   </div>
 
                   {/* Metadata stats */}
-                  <div className="flex items-center gap-3 text-[11px] font-mono text-muted-foreground bg-accent/15 px-3 py-2 rounded border border-border/60">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] font-mono text-muted-foreground bg-accent/15 px-3 py-2 rounded border border-border/60">
                     <span>Steps: <strong className="text-foreground">{steps?.length || 1}</strong></span>
                     <span>•</span>
-                    <span>Agent: <strong className="text-foreground">{run?.agent_name || 'Demo Agent'}</strong></span>
+                    <span>Agent: <strong className="text-foreground">{run?.agent_name || (provider === 'demo' ? 'Demo Agent' : 'Gemini Agent')}</strong></span>
+                    {steps?.find((s: any) => s.type === 'LLM')?.metadata?.model && (
+                      <>
+                        <span>•</span>
+                        <span>Model: <strong className="text-foreground">{steps.find((s: any) => s.type === 'LLM')?.metadata?.model}</strong></span>
+                      </>
+                    )}
                   </div>
                 </div>
 

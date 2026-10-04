@@ -3,6 +3,7 @@ import { useTraceStore } from '../../stores/traceStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import FormattedOutput from '@/components/FormattedOutput';
 
 export default function NodeInspector({ steps }: { steps: any[] }) {
   const { selectedNodeId, setSelectedNodeId } = useTraceStore();
@@ -96,7 +97,11 @@ export default function NodeInspector({ steps }: { steps: any[] }) {
 
     // Human readable
     if (typeof data === 'string') {
-      return <div className="text-sm leading-relaxed whitespace-pre-wrap p-4 bg-accent/5 border border-border rounded-lg">{data}</div>;
+      return (
+        <div className="p-4 bg-accent/5 border border-border rounded-lg">
+          <FormattedOutput content={data} />
+        </div>
+      );
     }
     
     // For LLM input specifically, if it's messages
@@ -106,7 +111,13 @@ export default function NodeInspector({ steps }: { steps: any[] }) {
            {data.messages.map((m: any, i: number) => (
              <div key={i} className="bg-accent/10 border border-border rounded-lg p-4">
                <div className="text-xs uppercase font-mono text-muted-foreground mb-2">{m.role}</div>
-               <div className="text-sm whitespace-pre-wrap">{typeof m.content === 'string' ? m.content : JSON.stringify(m.content)}</div>
+               <div className="text-sm">
+                 {typeof m.content === 'string' ? (
+                   <FormattedOutput content={m.content} />
+                 ) : (
+                   <pre className="font-mono text-xs">{JSON.stringify(m.content, null, 2)}</pre>
+                 )}
+               </div>
              </div>
            ))}
          </div>

@@ -34,3 +34,102 @@
     text-wrap: balance;
   }
 }
+
+@layer components {
+  .formatted-output p {
+    margin-bottom: 0.5rem;
+  }
+  .formatted-output p:last-child {
+    margin-bottom: 0;
+  }
+  .formatted-output ul {
+    list-style-type: disc;
+    padding-left: 1.25rem;
+    margin: 0.4rem 0;
+  }
+  .formatted-output ol {
+    list-style-type: decimal;
+    padding-left: 1.25rem;
+    margin: 0.4rem 0;
+  }
+  .formatted-output li {
+    margin-bottom: 0.25rem;
+  }
+  .formatted-output strong {
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+  .formatted-output em {
+    font-style: italic;
+  }
+  .formatted-output code:not(pre code) {
+    background: hsl(var(--accent) / 0.5);
+    padding: 0.15rem 0.35rem;
+    border-radius: 0.25rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    border: 1px solid hsl(var(--border) / 0.7);
+  }
+  .formatted-output pre {
+    background: hsl(0 0% 2% / 0.9);
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+    border: 1px solid hsl(var(--border));
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+  }
+  .formatted-output blockquote {
+    border-left: 3px solid hsl(var(--primary) / 0.6);
+    padding-left: 0.75rem;
+    margin: 0.5rem 0;
+    color: hsl(var(--muted-foreground));
+    font-style: italic;
+  }
+  .formatted-output h1 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0.75rem 0 0.35rem 0;
+    color: hsl(var(--foreground));
+  }
+  .formatted-output h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0.65rem 0 0.3rem 0;
+    color: hsl(var(--foreground));
+  }
+  .formatted-output h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0.5rem 0 0.25rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: hsl(var(--muted-foreground));
+  }
+  .formatted-output table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.5rem 0;
+    font-size: 0.85em;
+  }
+  .formatted-output th, .formatted-output td {
+    border: 1px solid hsl(var(--border));
+    padding: 0.4rem 0.6rem;
+    text-align: left;
+  }
+  .formatted-output th {
+    background: hsl(var(--accent) / 0.3);
+    font-weight: 600;
+  }
+  .math-block {
+    margin: 0.5rem 0;
+    overflow-x: auto;
+    text-align: center;
+  }
+  .math-inline {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
