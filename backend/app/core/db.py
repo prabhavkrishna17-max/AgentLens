@@ -6,9 +6,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 db_path = os.path.join(BASE_DIR, "agentlens.db")
 DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{db_path}")
 
-# Handle Render's postgres:// instead of postgresql:// for SQLAlchemy 1.4+
-if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+# Normalize PostgreSQL connection schemes to explicitly use the installed psycopg2 driver.
+# Handles Render/Heroku (postgres://), standard (postgresql://), and Neon/psycopg3 (postgresql+psycopg://) URLs.
+if DATABASE_URL.startswith("postgresql+psycopg://"):
+    DATABASE_URL = "postgresql+psycopg2://" + DATABASE_URL[len("postgresql+psycopg://"):]
+elif DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = "postgresql+psycopg2://" + DATABASE_URL[len("postgres://"):]
+elif DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = "postgresql+psycopg2://" + DATABASE_URL[len("postgresql://"):]
 
 # Only use check_same_thread for SQLite; use pool_pre_ping for PostgreSQL/external DBs
 connect_args = {}
