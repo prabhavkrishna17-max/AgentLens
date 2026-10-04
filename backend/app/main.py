@@ -8,8 +8,15 @@ from .api import runs, steps, diagnosis, projects, ingest, analytics, search, pr
 
 # Automatically create tables on startup (useful for deployments without Alembic migrations setup)
 from .models.base import Base
-from .core.db import engine
+from .core.db import engine, SessionLocal
 Base.metadata.create_all(bind=engine)
+
+# Ensure default workspace and project exist
+try:
+    with SessionLocal() as init_db:
+        projects.ensure_default_project(init_db)
+except Exception:
+    pass
 
 app = FastAPI(
     title="AgentLens API",

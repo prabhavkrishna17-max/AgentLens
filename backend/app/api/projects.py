@@ -8,15 +8,43 @@ from app.api.auth import generate_api_key
 
 router = APIRouter()
 
+def ensure_default_project(db: Session):
+    """Ensures a default workspace and demo project exist with an initial API key."""
+    workspace = db.query(Workspace).first()
+    if not workspace:
+        workspace = Workspace(name="Default Workspace")
+        db.add(workspace)
+        db.commit()
+        db.refresh(workspace)
+        
+    projects = db.query(Project).filter(Project.workspace_id == workspace.id).all()
+    if not projects:
+        project = Project(
+            workspace_id=workspace.id,
+            name="AgentLens Demo Project",
+            description="Default production project for AgentLens",
+            environment="production"
+        )
+        db.add(project)
+        db.commit()
+        db.refresh(project)
+        
+        api_key, key_hash, prefix = generate_api_key()
+        key_record = ApiKey(
+            project_id=project.id,
+            key_hash=key_hash,
+            prefix=prefix
+        )
+        db.add(key_record)
+        db.commit()
+        projects = [project]
+        
+    return workspace, projects
+
 @router.get("")
 def get_projects(db: Session = Depends(get_db)):
     """Returns all projects. In a real app, this would be filtered by the logged-in user's workspace."""
-    # Since we are local/prototype, just return all projects or create a default workspace if none exist.
-    workspace = db.query(Workspace).first()
-    if not workspace:
-        return []
-    
-    projects = db.query(Project).filter(Project.workspace_id == workspace.id).all()
+    workspace, projects = ensure_default_project(db)
     return [{
         "id": p.id, 
         "name": p.name, 
